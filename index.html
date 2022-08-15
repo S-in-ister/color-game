@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>色弱遊戲</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(250, 180, 124);
+        }
+
+        .container {
+            border: black 2px solid;
+            background-color: white;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            border: 5px solid white;
+            border-radius: 10px;
+            background-color: rgb(80, 101, 5);
+        }
+
+        .lv {
+            border: black 5px double;
+            width: 150px;
+            height: 70px;
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lv p {
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="lv">
+        <h2>等級</h2>
+        <p>1</p>
+    </div>
+    <div id="timer"></div>
+    <div class="container" style="width: 550px;height: 550px;">
+    </div>
+
+    <script>
+        let qty = 0
+        let times = [1,1,1,2,3,4,5,6]
+        let count = ''
+        let p = 1
+        let s = qty + 2
+        let grid = s ** 2
+        let side = Math.floor(100 / s * 100) / 100 + "%"
+        let opacity = 0.5
+        const containerElement = document.querySelector('.container')
+
+        function createBox() {
+            let timerElement = document.querySelector('#timer')
+            number = 10
+
+            let answer = Math.floor(Math.random() * grid)
+            let r = Math.floor(Math.random() * 255)
+            let g = Math.floor(Math.random() * 255)
+            let b = Math.floor(Math.random() * 255)
+            let boxes = ''
+
+            for (let i = 0; i < grid; i++) {
+                if (i == answer) {
+                    boxes += `<div class="box active" style="background-color: rgb(${r}, ${g}, ${b});
+                    width: ${side};height: ${side};opacity: ${0.94 - (1 / s)}"></div>`;
+                } else {
+                    boxes += `<div class="box" style="background-color: rgb(${r}, ${g}, ${b});
+                    width: ${side};height: ${side}"></div>`;
+                }
+            }
+            containerElement.innerHTML = boxes;
+        }
+
+        function answerSetting() {
+            const answerElement = document.querySelector('.box.active');
+            let lvElement = document.querySelector('.lv')
+            let lvp = ''
+
+            answerElement.addEventListener('click', function () {
+                // setTimeout(gameOver, 60000)
+
+                if(count >= times[qty]){
+                    if (s < 9) {
+                        s = s + 1
+                        grid = s ** 2
+                        side = Math.floor(100 / s * 100) / 100 + "%"
+                    } 
+                        count + 1
+                    } else {
+                    count += 1
+                }
+
+                p += 1
+                lvp += `<h2>等級</h2><p>${p}</p>`
+                lvElement.innerHTML = lvp
+                initGame()
+            })
+        }
+
+        function initGame() {
+            createBox();
+            answerSetting();
+        }
+
+        initGame();
+
+        // function gameOver() {
+        //     alert(`時間到, 你的等級為 ${p}`)
+        //     initGame();
+        // }
+
+        // gameOver()
+    </script>
+</body>
+
+</html>
