@@ -27,7 +27,7 @@
             height: 550px;
             border: black 2px solid;
             background-color: white;
-            padding: 10px;
+            padding: 2vw;
             border-radius: 10px;
             display: flex;
             flex-wrap: wrap;
@@ -55,6 +55,35 @@
             font-size: 24px;
         }
 
+        .glass {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            /* background: white; */
+            /* opacity: 0.8; */
+            backdrop-filter: blur(45px);
+        }
+
+        .glass.active {
+            display: none;
+        }
+
+        .start {
+            width: 160px;
+            height: 60px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 20px;
+            border: 0;
+            background-color: rgba(220, 100, 100, 0.839);
+            color: white;
+            font-size: 18px;
+        }
+
         @media (max-width: 600px) {
             .container {
                 width: 90vw;
@@ -69,23 +98,36 @@
         <h2>等級</h2>
         <p>1</p>
     </div>
-
-    <div id="timer"></div>
     
     <div class="container">
+    </div>
+
+    <div class="glass">
+        <button class="start">遊戲開始</button>
     </div>
 
     <script>
         let qty = 0
         let times = [1,1,1,2,3,4,5,6]
         let count = ''
-        let p = 1
-        let s = qty + 2
-        let grid = s ** 2
+        let p = 1 //初始等級
+        let s = qty + 2 
+        let grid = s ** 2 //方塊數量
         let side = Math.floor(100 / s * 100) / 100 + "%"
         let opacity = 0.5
-        const containerElement = document.querySelector('.container')
+        const containerElement = document.querySelector('.container');
+        let startBtn = document.querySelector('.start'); //毛破璃
+        let glassElement = document.querySelector('.glass'); //開始按鈕
 
+        // 按下開始
+        function start() {
+            startBtn.addEventListener('click', function () {
+                glassElement.classList.add("active");
+                setTimeout(gameOver, 60000);
+            })            
+        }
+
+        // 產生遊戲畫面
         function createBox() {
             let timerElement = document.querySelector('#timer')
             number = 10
@@ -114,8 +156,6 @@
             let lvp = ''
 
             answerElement.addEventListener('click', function () {
-                // setTimeout(gameOver, 60000)
-
                 if(count >= times[qty]){
                     if (s < 9) {
                         s = s + 1
@@ -133,20 +173,23 @@
                 initGame()
             })
         }
-
+        
+        // 初始化遊戲
         function initGame() {
             createBox();
             answerSetting();
         }
-
+        
+        // 倒數計時
+        function gameOver() {
+            var dialog = confirm(`時間到, 您的等級為 ${p}, 是否重新開始？`);
+                if (dialog) {
+                    window.location.reload();
+                }
+        }
+        
+        start();
         initGame();
-
-        // function gameOver() {
-        //     alert(`時間到, 你的等級為 ${p}`)
-        //     initGame();
-        // }
-
-        // gameOver()
     </script>
 </body>
 
