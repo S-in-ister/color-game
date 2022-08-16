@@ -19,10 +19,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgb(250, 180, 124);
+            background-color: rgb(242, 237, 196);
         }
 
         .container {
+            width: 550px;
+            height: 550px;
             border: black 2px solid;
             background-color: white;
             padding: 10px;
@@ -53,6 +55,12 @@
             font-size: 24px;
         }
 
+        @media (max-width: 600px) {
+            .container {
+                width: 90vw;
+                height: 90vw;
+            }
+        }
     </style>
 </head>
 
@@ -61,8 +69,10 @@
         <h2>等級</h2>
         <p>1</p>
     </div>
+
     <div id="timer"></div>
-    <div class="container" style="width: 550px;height: 550px;">
+    
+    <div class="container">
     </div>
 
     <script>
